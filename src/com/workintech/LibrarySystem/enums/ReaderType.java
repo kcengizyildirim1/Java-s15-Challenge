@@ -2,7 +2,7 @@ package com.workintech.LibrarySystem.enums;
 
 public enum ReaderType {
     STUDENT,
-    AKADEMISYEN;
+    ACADEMICAN;
     public static ReaderType fromString(String value) {
         try {
             return valueOf(value.toUpperCase());

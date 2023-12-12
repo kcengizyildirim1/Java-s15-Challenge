@@ -9,19 +9,20 @@ public class Book {
     private long id;
     private String name;
     private Categories categories;
-    private String writer;
-    private int page;
+    private String author;
     private BookStatus bookStatus;
     private int stock;
+    private double price;
 
-    public Book(long id, String name, Categories categories, String writer, int page, BookStatus bookStatus, int stock) {
+    public Book(long id, String name, Categories categories, String author, BookStatus bookStatus,
+                int stock, double price) {
         this.id = id;
         this.name = name;
         this.categories = categories;
-        this.writer = writer;
-        this.page = page;
+        this.author = author;
         this.bookStatus = bookStatus;
         this.stock = stock;
+        this.price = price;
     }
 
     public long getId() {
@@ -32,13 +33,6 @@ public class Book {
         this.id = id;
     }
 
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
 
     public String getName() {
         return name;
@@ -56,12 +50,12 @@ public class Book {
         this.categories = categories;
     }
 
-    public String getWriter() {
-        return writer;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public BookStatus getBookStatus() {
@@ -78,6 +72,19 @@ public class Book {
 
     public void setStock(int stock) {
         this.stock = stock;
+        if (stock > 0) {
+            this.bookStatus = BookStatus.IN_STOCK;
+        } else {
+            this.bookStatus = BookStatus.OUT_OF_STOCK;
+        }
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override
@@ -99,10 +106,10 @@ public class Book {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", categories=" + categories +
-                ", writer='" + writer + '\'' +
-                ", page= '" + page + '\'' +
+                ", author='" + author + '\'' +
                 ", status= '" + bookStatus + '\'' +
                 ", stock= '" + stock + '\'' +
+                ", price= '" + price + '\'' +
                 '}';
     }
 }

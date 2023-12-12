@@ -1,32 +1,33 @@
 package com.workintech.LibrarySystem.model;
 
-import com.workintech.LibrarySystem.interfaces.Actions;
+import com.workintech.LibrarySystem.enums.BookStatus;
+import com.workintech.LibrarySystem.enums.Categories;
+import com.workintech.LibrarySystem.interfaces.LibrarianActions;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
-public class Librarian implements Actions {
+public class Librarian extends Person implements LibrarianActions {
 
-        private String name;
-        private Library library;
+    private Library library;
 
-        public Librarian(String name, Library library) {
-
-            this.name = name;
-            this.library = library;
-        }
-
+    public Librarian(String name, Library library) {
+        super(name);
+        this.library = library;
+    }
 
     @Override
     public void addBook(Book book) {
-        library.addBook(book);
+        if (book.getStock() == 0 && book.getBookStatus() == BookStatus.OUT_OF_STOCK) {
+            book.setBookStatus(BookStatus.IN_STOCK);
+        }
+        book.setStock(book.getStock() + 1);
+        library.getBookList().put(book.getId(), book);
     }
 
     @Override
     public boolean searchBook(String bookName) {
         for(Book book : library.getBookList().values()){
-            if (book.getName().toLowerCase().equals(bookName.toLowerCase())){
+            if (book.getName().equalsIgnoreCase(bookName)){
                 System.out.println("Aradiginiz kitap bulundu: " + book.getName());
                 return true;
             }
@@ -43,20 +44,29 @@ public class Librarian implements Actions {
             if (book.getId() == bookId) {
                 iterator.remove();
                 System.out.println("Kitap sistemimizden kaldırıldı: " + book.getName());
-                return;  // Kitap bulunduğunda işlemi sonlandır
+                return;
             }
         }
         System.out.println("Sistemde böyle bir kitap bulunmamaktadır.");
     }
 
-
-
+    @Override
+    public void updateBook(Book book , String name , String author , double price, Categories categories, int stock ,
+     BookStatus bookStatus) {
+        if(searchBook(book.getName())){
+            book.setName(name);
+            book.setAuthor(author);
+            book.setPrice(price);
+            book.setCategories(categories);
+            book.setStock(stock);
+            book.setBookStatus(bookStatus);
+        }
+    }
 
     @Override
     public String toString() {
         return "Librarian{" +
-                ", name='" + name + '\'' +
-                ", library=" + library +
+                "library=" + library +
                 '}';
     }
 }
